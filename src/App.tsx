@@ -10,12 +10,12 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import { useState } from 'react';
+import { car, ellipse, home, person, square, triangle } from 'ionicons/icons';
 
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import { CarProvider } from './components/CarContext';
 
 /* Core CSS */
 import '@ionic/react/css/core.css';
@@ -39,67 +39,52 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-/* =========================
-   INTERFACE INTERNA
-========================= */
-export interface Car {
-  id: number;
-  marca: string;
-  modelo: string;
-  placa: string;
-  kilometraje: number;
-  ultimoAceite: number;
-  ultimaBateria: number;
-  limiteAceite: number;
-  limiteBateria: number;
-}
-
 const App: React.FC = () => {
-  const [cars, setCars] = useState<Car[]>([]);
-
   return (
     <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
+      <CarProvider>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
 
-            <Route exact path="/tab1">
-              <Tab1 cars={cars} />
-            </Route>
+              <Route exact path="/tab1">
+                <Tab1 />
+              </Route>
 
-            <Route exact path="/tab2">
-              <Tab2 setCars={setCars} />
-            </Route>
+              <Route exact path="/tab2">
+                <Tab2 />
+              </Route>
 
-            <Route exact path="/tab3">
-              <Tab3 />
-            </Route>
+              <Route exact path="/tab3">
+                <Tab3 />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/tab1" />
-            </Route>
+              <Route exact path="/">
+                <Redirect to="/tab1" />
+              </Route>
 
-          </IonRouterOutlet>
+            </IonRouterOutlet>
 
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
-              <IonIcon icon={triangle} />
-              <IonLabel>Inicio</IonLabel>
-            </IonTabButton>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="tab1" href="/tab1">
+                <IonIcon icon={home} />
+                <IonLabel>Inicio</IonLabel>
+              </IonTabButton>
 
-            <IonTabButton tab="tab2" href="/tab2">
-              <IonIcon icon={ellipse} />
-              <IonLabel>Registrar</IonLabel>
-            </IonTabButton>
+              <IonTabButton tab="tab2" href="/tab2">
+                <IonIcon icon={car} />
+                <IonLabel>Registrar</IonLabel>
+              </IonTabButton>
 
-            <IonTabButton tab="tab3" href="/tab3">
-              <IonIcon icon={square} />
-              <IonLabel>Perfil</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
+              <IonTabButton tab="tab3" href="/tab3">
+                <IonIcon icon={person} />
+                <IonLabel>Perfil</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
 
-        </IonTabs>
-      </IonReactRouter>
+          </IonTabs>
+        </IonReactRouter>
+      </CarProvider>
     </IonApp>
   );
 };

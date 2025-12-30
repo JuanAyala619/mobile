@@ -10,22 +10,23 @@ import {
   IonButton
 } from '@ionic/react';
 import { useState } from 'react';
-import { Car } from '../App';
+import { useCarContext } from '../components/CarContext';
 
-interface Tab2Props {
-  setCars: React.Dispatch<React.SetStateAction<Car[]>>;
-}
-
-const Tab2: React.FC<Tab2Props> = ({ setCars }) => {
+const Tab2: React.FC = () => {
+  const { addCar } = useCarContext();
   const [marca, setMarca] = useState('');
   const [modelo, setModelo] = useState('');
   const [placa, setPlaca] = useState('');
-  const [limiteAceite, setLimiteAceite] = useState<number>(0);
-  const [limiteBateria, setLimiteBateria] = useState<number>(0);
+  const [limiteAceite, setLimiteAceite] = useState<number>(5000);
+  const [limiteBateria, setLimiteBateria] = useState<number>(30000);
 
   const guardar = () => {
-    const nuevo: Car = {
-      id: Date.now(),
+    if (!marca || !modelo || !placa) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
+    addCar({
       marca: marca,
       modelo: modelo,
       placa: placa,
@@ -34,15 +35,15 @@ const Tab2: React.FC<Tab2Props> = ({ setCars }) => {
       ultimaBateria: 0,
       limiteAceite: limiteAceite,
       limiteBateria: limiteBateria
-    };
-
-    setCars(prev => [...prev, nuevo]);
+    });
 
     setMarca('');
     setModelo('');
     setPlaca('');
-    setLimiteAceite(0);
-    setLimiteBateria(0);
+    setLimiteAceite(5000);
+    setLimiteBateria(30000);
+
+    alert('Coche registrado exitosamente!');
   };
 
   return (
@@ -56,35 +57,49 @@ const Tab2: React.FC<Tab2Props> = ({ setCars }) => {
       <IonContent className="ion-padding">
 
         <IonItem>
-          <IonLabel position="stacked">Marca</IonLabel>
-          <IonInput value={marca} onIonChange={e => setMarca(e.detail.value!)} />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel position="stacked">Modelo</IonLabel>
-          <IonInput value={modelo} onIonChange={e => setModelo(e.detail.value!)} />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel position="stacked">Placa</IonLabel>
-          <IonInput value={placa} onIonChange={e => setPlaca(e.detail.value!)} />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel position="stacked">Km cambio de aceite</IonLabel>
+          <IonLabel position="stacked">Marca *</IonLabel>
           <IonInput
-            type="number"
-            value={limiteAceite}
-            onIonChange={e => setLimiteAceite(Number(e.detail.value))}
+            value={marca}
+            onIonChange={e => setMarca(e.detail.value || '')}
+            placeholder="Ej: Toyota"
           />
         </IonItem>
 
         <IonItem>
-          <IonLabel position="stacked">Km cambio de batería</IonLabel>
+          <IonLabel position="stacked">Modelo *</IonLabel>
+          <IonInput
+            value={modelo}
+            onIonChange={e => setModelo(e.detail.value || '')}
+            placeholder="Ej: Corolla"
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonLabel position="stacked">Placa *</IonLabel>
+          <IonInput
+            value={placa}
+            onIonChange={e => setPlaca(e.detail.value || '')}
+            placeholder="Ej: ABC123"
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonLabel position="stacked">Km para cambio de aceite</IonLabel>
+          <IonInput
+            type="number"
+            value={limiteAceite}
+            onIonChange={e => setLimiteAceite(Number(e.detail.value) || 5000)}
+            placeholder="5000"
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonLabel position="stacked">Km para cambio de batería</IonLabel>
           <IonInput
             type="number"
             value={limiteBateria}
-            onIonChange={e => setLimiteBateria(Number(e.detail.value))}
+            onIonChange={e => setLimiteBateria(Number(e.detail.value) || 30000)}
+            placeholder="30000"
           />
         </IonItem>
 
