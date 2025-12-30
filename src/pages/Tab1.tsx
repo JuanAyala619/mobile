@@ -41,10 +41,9 @@ const Tab1: React.FC = () => {
       <IonContent className="ion-padding">
         {cars.length === 0 ? (
           <div className="empty-state">
-            <IonIcon icon={add} size="large" />
             <IonText color="medium">
               <h2>No hay coches registrados</h2>
-              <p>Presiona el botón + para agregar tu primer coche</p>
+              <p>Vaya a la sección "Registrar" para agregar tu primer coche</p>
             </IonText>
           </div>
         ) : (

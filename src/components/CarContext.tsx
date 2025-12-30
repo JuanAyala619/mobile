@@ -37,17 +37,6 @@ interface CarProviderProps {
 
 export const CarProvider: React.FC<CarProviderProps> = ({ children }) => {
     const [cars, setCars] = useState<Car[]>([
-        {
-            id: 1,
-            marca: 'Toyota',
-            modelo: 'Corolla',
-            placa: 'ABC123',
-            kilometraje: 50000,
-            ultimoAceite: 45000,
-            ultimaBateria: 30000,
-            limiteAceite: 10000,
-            limiteBateria: 50000,
-        },
     ]);
 
     const addCar = (carData: Omit<Car, 'id'>) => {

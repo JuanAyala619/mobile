@@ -60,7 +60,7 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
                     </div>
                 </div>
                 <IonButton expand="block" fill="clear" className="view-details-btn">
-                    Ver detalles →
+                    Ver detalles 
                 </IonButton>
             </IonCardContent>
         </IonCard>
