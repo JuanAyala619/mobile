@@ -8,27 +8,25 @@ import {
   IonRow,
   IonCol,
   IonText,
-  IonIcon,
 } from '@ionic/react';
-import { add } from 'ionicons/icons';
 import { useState } from 'react';
-import CarCard from '../components/CarCard';
-import CarModal from '../components/CarModal';
-import { useCarContext } from '../components/CarContext';
+import CarCard from '../../components/CarCard';
+import CarModal from '../../components/CarModal';
+import { useCarContext } from '../../components/CarContext';
 import './Tab1.css';
 
 const Tab1: React.FC = () => {
-  const { cars, updateCarKm, changeOil, changeBattery } = useCarContext();
+  const { cars, updateCarKm, changeOil, changeBattery, deleteCar } = useCarContext();
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [segment, setSegment] = useState<'dashboard' | 'registro'>('dashboard');
 
-  const cerrar = () => {
+  const modalIsOpen = selectedCar !== null;
+  const selectedCarData = cars.find(car => car.id === selectedCar) || null;
+
+  const cerrarModal = () => {
     setSelectedCar(null);
     setSegment('dashboard');
   };
-
-  const modalIsOpen = selectedCar !== null;
-  const selectedCarData = cars.find(car => car.id === selectedCar) || null;
 
   return (
     <IonPage>
@@ -49,16 +47,20 @@ const Tab1: React.FC = () => {
         ) : (
           <IonGrid>
             <IonRow>
-              {cars.map(car => {
-                return (
-                  <IonCol size="12" size-md="6" key={car.id}>
-                    <CarCard
-                      car={car}
-                      onClick={() => setSelectedCar(car.id)}
-                    />
-                  </IonCol>
-                );
-              })}
+              {cars.map(car => (
+                <IonCol size="12" size-md="6" key={car.id}>
+                  <CarCard
+                    car={car}
+                    onClick={() => setSelectedCar(car.id)}
+                    onDelete={() => {
+                      deleteCar(car.id);
+                      if (selectedCar === car.id) {
+                        cerrarModal();
+                      }
+                    }}
+                  />
+                </IonCol>
+              ))}
             </IonRow>
           </IonGrid>
         )}
@@ -68,7 +70,7 @@ const Tab1: React.FC = () => {
           car={selectedCarData}
           segment={segment}
           onSegmentChange={setSegment}
-          onClose={cerrar}
+          onClose={cerrarModal}
           onRegisterKm={(km) => {
             if (selectedCar) {
               updateCarKm(selectedCar, km);

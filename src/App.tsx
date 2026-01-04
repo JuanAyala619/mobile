@@ -11,10 +11,11 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { car, ellipse, home, person, square, triangle } from 'ionicons/icons';
-
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import AuthGuard from './components/AuthGuard';
+import Tab1 from './pages/app/Tab1';
+import Tab2 from './pages/app/Tab2';
+import Tab3 from './pages/app/Tab3';
+import Login from './pages/Login'
 import { CarProvider } from './components/CarContext';
 
 /* Core CSS */
@@ -36,55 +37,70 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme */
 import './theme/variables.css';
+import { AuthProvider } from './components/AuthContext';
 
 setupIonicReact();
 
 const App: React.FC = () => {
   return (
     <IonApp>
-      <CarProvider>
-        <IonReactRouter>
-          <IonTabs>
+      <AuthProvider>
+        <CarProvider>
+          <IonReactRouter>
             <IonRouterOutlet>
-
-              <Route exact path="/tab1">
-                <Tab1 />
+              <Route exact path="/login">
+                <Login />
               </Route>
+              <Route path="/app">
+                <AuthGuard>
+                  <IonTabs>
+                    <IonRouterOutlet>
 
-              <Route exact path="/tab2">
-                <Tab2 />
+                      <Route exact path="/app/tab1">
+                        <Tab1 />
+                      </Route>
+
+                      <Route exact path="/app/tab2">
+                        <Tab2 />
+                      </Route>
+
+                      <Route exact path="/app/tab3">
+                        <Tab3 />
+                      </Route>
+
+                      <Route exact path="/app">
+                        <Redirect to="/app/tab1" />
+                      </Route>
+
+                    </IonRouterOutlet>
+
+                    <IonTabBar slot="bottom">
+                      <IonTabButton tab="tab1" href="/app/tab1">
+                        <IonIcon icon={home} />
+                        <IonLabel>Inicio</IonLabel>
+                      </IonTabButton>
+
+                      <IonTabButton tab="tab2" href="/app/tab2">
+                        <IonIcon icon={car} />
+                        <IonLabel>Registrar</IonLabel>
+                      </IonTabButton>
+
+                      <IonTabButton tab="tab3" href="/app/tab3">
+                        <IonIcon icon={person} />
+                        <IonLabel>Perfil</IonLabel>
+                      </IonTabButton>
+                    </IonTabBar>
+
+                  </IonTabs>
+                </AuthGuard>
               </Route>
-
-              <Route exact path="/tab3">
-                <Tab3 />
-              </Route>
-
               <Route exact path="/">
-                <Redirect to="/tab1" />
+                <Redirect to="/login" />
               </Route>
-
             </IonRouterOutlet>
-
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="tab1" href="/tab1">
-                <IonIcon icon={home} />
-                <IonLabel>Inicio</IonLabel>
-              </IonTabButton>
-
-              <IonTabButton tab="tab2" href="/tab2">
-                <IonIcon icon={car} />
-                <IonLabel>Registrar</IonLabel>
-              </IonTabButton>
-
-              <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon icon={person} />
-                <IonLabel>Perfil</IonLabel>
-              </IonTabButton>
-            </IonTabBar>
-
-          </IonTabs>
-        </IonReactRouter>
-      </CarProvider>
+          </IonReactRouter>
+        </CarProvider>
+      </AuthProvider>
     </IonApp>
   );
 };

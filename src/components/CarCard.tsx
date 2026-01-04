@@ -4,18 +4,22 @@ import {
     IonCardContent,
     IonCardHeader,
     IonCardTitle,
-    IonIcon
+    IonIcon,
+    IonAlert
 } from '@ionic/react';
 import './CarCard.css';
-
+import { useState } from 'react';
 import { Car } from './CarContext';
 
 interface CarCardProps {
     car: Car;
     onClick: () => void;
+    onDelete?: () => void;
 }
 
-const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
+const CarCard: React.FC<CarCardProps> = ({ car, onClick, onDelete }) => {
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
     const remainingOil = car.limiteAceite - (car.kilometraje - car.ultimoAceite);
     const remainingBattery = car.limiteBateria - (car.kilometraje - car.ultimaBateria);
 
@@ -35,13 +39,14 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
     const batteryStatus = getBatteryStatus();
 
     return (
-        <IonCard className="car-card" onClick={onClick}>
+        <IonCard className="car-card">
             <IonCardHeader>
                 <IonCardTitle>
                     <IonIcon icon="car" style={{ marginRight: '8px' }} />
                     {car.marca} {car.modelo}
                 </IonCardTitle>
             </IonCardHeader>
+
             <IonCardContent>
                 <div className="car-info">
                     <p><strong>Placa:</strong> {car.placa}</p>
@@ -59,10 +64,47 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick }) => {
                         <span>Batería: {batteryStatus.label}</span>
                     </div>
                 </div>
-                <IonButton expand="block" fill="clear" className="view-details-btn">
-                    Ver detalles 
-                </IonButton>
+
+                <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                    <IonButton
+                        expand="block"
+                        onClick={onClick}
+                        style={{ flex: 1 }}
+                    >
+                        Ver detalles
+                    </IonButton>
+                    <IonButton
+                        expand="block"
+                        color="danger"
+                        onClick={() => setShowDeleteAlert(true)}
+                        style={{ flex: 1 }}
+                    >
+                        Eliminar
+                    </IonButton>
+                </div>
             </IonCardContent>
+
+            {/* ALERTA DENTRO DEL CARD - Esto soluciona el problema */}
+            <IonAlert
+                isOpen={showDeleteAlert}
+                onDidDismiss={() => setShowDeleteAlert(false)}
+                header="Eliminar vehículo"
+                message={`¿Estás seguro de eliminar ${car.marca} ${car.modelo}?`}
+                buttons={[
+                    {
+                        text: 'Cancelar',
+                        role: 'cancel'
+                    },
+                    {
+                        text: 'Eliminar',
+                        handler: () => {
+                            if (onDelete) {
+                                onDelete();
+                            }
+                        }
+                    }
+                ]}
+            />
         </IonCard>
     );
 };

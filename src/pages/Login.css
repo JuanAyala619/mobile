@@ -1,0 +1,135 @@
+.login-content {
+    --background: linear-gradient(135deg, #086cca 0%, #158aff 100%);
+    padding: 20px;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px 0;
+}
+
+.logo-icon {
+    font-size: 72px;
+    margin-bottom: 16px;
+    color: white;
+}
+
+.login-logo h1 {
+    color: white;
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.login-logo p {
+    color: white;
+    margin: 0;
+    opacity: 0.9;
+    font-size: 16px;
+}
+
+.login-input {
+    --background: #e28103f3;
+    --border-radius: 8px;
+    margin-bottom: 16px;
+    --padding-start: 12px;
+    --inner-padding-end: 12px;
+}
+
+.login-input.item-has-focus {
+    --background: rgba(255, 255, 255, 1);
+}
+
+.login-input ion-icon {
+    color: var(--ion-color-primary);
+}
+
+.login-input ion-label {
+    color: var(--ion-color-medium);
+}
+
+.login-input input {
+    color: #000;
+    font-size: 16px;
+}
+
+.login-button {
+    margin-top: 24px;
+    --border-radius: 8px;
+    height: 48px;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.demo-button {
+    --border-radius: 8px;
+    height: 48px;
+    margin-top: 8px;
+    --border-color: var(--ion-color-medium);
+    --color: var(--ion-color-medium);
+    font-weight: 500;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 24px 0;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.divider span {
+    padding: 0 16px;
+    font-size: 14px;
+}
+
+#demo-button {
+    color: inherit;
+}
+
+.error-message {
+    
+    background: rgb(192, 8, 32);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+    border: 1px solid rgba(248, 29, 0, 0.945);
+};
+
+.login-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-footer small {
+    opacity: 0.8;
+    color: white;
+    font-size: 12px;
+}
+
+/* Asegurar que el contenido no esté muy apretado en móviles */
+@media (max-width: 768px) {
+    .login-content {
+        padding: 15px;
+    }
+
+    .logo-icon {
+        font-size: 60px;
+    }
+
+    .login-logo h1 {
+        font-size: 24px;
+    }
+}

@@ -10,7 +10,7 @@ import {
   IonButton
 } from '@ionic/react';
 import { useState } from 'react';
-import { useCarContext } from '../components/CarContext';
+import { useCarContext } from '../../components/CarContext';
 
 const Tab2: React.FC = () => {
   const { addCar } = useCarContext();
