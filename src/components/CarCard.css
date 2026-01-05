@@ -1,16 +1,107 @@
 .car-card {
     margin-bottom: 16px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .car-card:hover {
     transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
 }
 
 .car-info {
     line-height: 1.6;
+}
+
+.car-card__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(15, 23, 42, 0.92);
+    font-weight: 800;
+    letter-spacing: 0.1px;
+}
+
+.car-card__titleIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(var(--ion-color-primary-rgb), 0.10);
+    color: var(--ion-color-primary);
+    flex: 0 0 auto;
+}
+
+.car-card__titleIcon ion-icon {
+    font-size: 18px;
+}
+
+.car-card__titleText {
+    font-size: 16px;
+}
+
+.car-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.car-card__meta {
+    display: grid;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.03);
+}
+
+.car-card__metaRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.car-card__metaLabel {
+    font-size: 12px;
+    color: rgba(15, 23, 42, 0.55);
+    font-weight: 700;
+}
+
+.car-card__metaValue {
+    font-size: 13px;
+    color: rgba(15, 23, 42, 0.90);
+    font-weight: 800;
+    text-align: right;
+}
+
+.car-card__statusGrid {
+    display: grid;
+    gap: 10px;
+}
+
+.car-card__statusPill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.car-card__statusPill ion-icon {
+    font-size: 16px;
+    color: rgba(15, 23, 42, 0.55);
+}
+
+.car-card__statusText {
+    font-size: 13px;
+    color: rgba(15, 23, 42, 0.75);
+    font-weight: 700;
 }
 
 .status-indicators {
@@ -39,9 +130,24 @@
     background-color: #eb445a;
 }
 
-.view-details-btn {
-    margin-top: 12px;
+.car-card__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.car-card__btn {
+    margin: 0;
+    --border-radius: 999px;
+    font-weight: 700;
+}
+
+.car-card__btn--primary {
     --background: var(--ion-color-primary);
     --color: white;
-    font-weight: 500;
+}
+
+.car-card__btn--danger {
+    --border-color: rgba(var(--ion-color-danger-rgb), 0.35);
 }

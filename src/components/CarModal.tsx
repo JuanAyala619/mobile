@@ -9,18 +9,22 @@ import {
     IonIcon,
     IonSegment,
     IonSegmentButton,
+    IonCard,
+    IonCardContent,
     IonItem,
     IonLabel,
     IonInput,
-    IonText,
     IonBadge,
     IonGrid,
     IonRow,
     IonCol,
+    IonList,
+    IonNote,
 } from '@ionic/react';
 import { useState } from 'react';
 import './CarModal.css';
 import { Car } from './CarContext';
+import { batteryHalf, close, flag, list, speedometer, water } from 'ionicons/icons';
 
 interface CarModalProps {
     isOpen: boolean;
@@ -49,6 +53,10 @@ const CarModal: React.FC<CarModalProps> = ({
 
     const remainingOil = Math.max(0, car.limiteAceite - (car.kilometraje - car.ultimoAceite));
     const remainingBattery = Math.max(0, car.limiteBateria - (car.kilometraje - car.ultimaBateria));
+    const nextOilAt = car.ultimoAceite + car.limiteAceite;
+    const nextBatteryAt = car.ultimaBateria + car.limiteBateria;
+    const nextServiceAt = Math.min(nextOilAt, nextBatteryAt);
+    const nextServiceType = nextOilAt <= nextBatteryAt ? 'Aceite' : 'Batería';
 
     const getOilColor = () => {
         if (remainingOil > 2000) return 'success';
@@ -65,28 +73,29 @@ const CarModal: React.FC<CarModalProps> = ({
     return (
         <IonModal isOpen={isOpen} className="car-modal">
             <IonHeader>
-                <IonToolbar color="primary">
+                <IonToolbar className="car-modal__toolbar">
                     <IonTitle>{car.marca} {car.modelo}</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={onClose}>
-                            <IonIcon icon="close" />
+                        <IonButton onClick={onClose} fill="clear" color="medium" className="car-modal__closeBtn">
+                            <IonIcon icon={close} />
                         </IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent className="ion-padding">
+            <IonContent className="car-modal__content">
                 {/* Selector de sección */}
                 <IonSegment
+                    className="car-modal__segment"
                     value={segment}
                     onIonChange={e => onSegmentChange(e.detail.value as any)}
                 >
                     <IonSegmentButton value="dashboard">
-                        <IonIcon icon="speedometer" />
+                        <IonIcon icon={speedometer} />
                         <IonLabel>Dashboard</IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="registro">
-                        <IonIcon icon="water" />
+                        <IonIcon icon={water} />
                         <IonLabel>Registro</IonLabel>
                     </IonSegmentButton>
                 </IonSegment>
@@ -99,56 +108,118 @@ const CarModal: React.FC<CarModalProps> = ({
                             <p className="total-km">{car.kilometraje.toLocaleString()} km totales</p>
                         </div>
 
-                        <IonGrid className="metrics-grid">
+                        <IonGrid className="car-dashboard">
                             <IonRow>
-                                <IonCol size="6">
-                                    <div className="metric-card oil-card">
-                                        <IonIcon icon="water" size="large" color="warning" />
-                                        <h3>Aceite</h3>
-                                        <IonBadge color={getOilColor()}>
-                                            {remainingOil.toLocaleString()} km restantes
-                                        </IonBadge>
-                                        <p className="next-change">
-                                            Próximo cambio: {(car.ultimoAceite + car.limiteAceite).toLocaleString()} km
-                                        </p>
-                                    </div>
+                                <IonCol size="12" sizeMd="6">
+                                    <IonCard className="car-dashboard__statCard car-dashboard__statCard--primary">
+                                        <IonCardContent className="car-dashboard__statCardContent">
+                                            <div className="car-dashboard__statTop">
+                                                <div className="car-dashboard__iconWrap">
+                                                    <IonIcon icon={speedometer} className="car-dashboard__statIcon" />
+                                                </div>
+                                                <div className="car-dashboard__statText">
+                                                    <div className="car-dashboard__statLabel">Kilometraje</div>
+                                                    <div className="car-dashboard__statMeta">km totales</div>
+                                                </div>
+                                            </div>
+                                            <div className="car-dashboard__statValue">{car.kilometraje.toLocaleString()}</div>
+                                        </IonCardContent>
+                                    </IonCard>
                                 </IonCol>
 
-                                <IonCol size="6">
-                                    <div className="metric-card battery-card">
-                                        <IonIcon icon="battery-half" size="large" color="tertiary" />
-                                        <h3>Batería</h3>
-                                        <IonBadge color={getBatteryColor()}>
-                                            {remainingBattery.toLocaleString()} km restantes
-                                        </IonBadge>
-                                        <p className="next-change">
-                                            Próximo cambio: {(car.ultimaBateria + car.limiteBateria).toLocaleString()} km
-                                        </p>
-                                    </div>
+                                <IonCol size="12" sizeMd="6">
+                                    <IonCard className="car-dashboard__statCard car-dashboard__statCard--warning">
+                                        <IonCardContent className="car-dashboard__statCardContent">
+                                            <div className="car-dashboard__statTop">
+                                                <div className="car-dashboard__iconWrap">
+                                                    <IonIcon icon={water} className="car-dashboard__statIcon" />
+                                                </div>
+                                                <div className="car-dashboard__statText">
+                                                    <div className="car-dashboard__statLabel">Aceite</div>
+                                                    <div className="car-dashboard__statMeta">km restantes</div>
+                                                </div>
+                                            </div>
+                                            <div className="car-dashboard__statValue">{remainingOil.toLocaleString()}</div>
+                                            <div className="car-dashboard__badgeRow">
+                                                <IonBadge color={getOilColor()}>Próximo: {nextOilAt.toLocaleString()} km</IonBadge>
+                                            </div>
+                                        </IonCardContent>
+                                    </IonCard>
+                                </IonCol>
+
+                                <IonCol size="12" sizeMd="6">
+                                    <IonCard className="car-dashboard__statCard car-dashboard__statCard--tertiary">
+                                        <IonCardContent className="car-dashboard__statCardContent">
+                                            <div className="car-dashboard__statTop">
+                                                <div className="car-dashboard__iconWrap">
+                                                    <IonIcon icon={batteryHalf} className="car-dashboard__statIcon" />
+                                                </div>
+                                                <div className="car-dashboard__statText">
+                                                    <div className="car-dashboard__statLabel">Batería</div>
+                                                    <div className="car-dashboard__statMeta">km restantes</div>
+                                                </div>
+                                            </div>
+                                            <div className="car-dashboard__statValue">{remainingBattery.toLocaleString()}</div>
+                                            <div className="car-dashboard__badgeRow">
+                                                <IonBadge color={getBatteryColor()}>
+                                                    Próximo: {nextBatteryAt.toLocaleString()} km
+                                                </IonBadge>
+                                            </div>
+                                        </IonCardContent>
+                                    </IonCard>
+                                </IonCol>
+
+                                <IonCol size="12" sizeMd="6">
+                                    <IonCard className="car-dashboard__statCard car-dashboard__statCard--success">
+                                        <IonCardContent className="car-dashboard__statCardContent">
+                                            <div className="car-dashboard__statTop">
+                                                <div className="car-dashboard__iconWrap">
+                                                    <IonIcon icon={list} className="car-dashboard__statIcon" />
+                                                </div>
+                                                <div className="car-dashboard__statText">
+                                                    <div className="car-dashboard__statLabel">Próximo</div>
+                                                    <div className="car-dashboard__statMeta">{nextServiceType}</div>
+                                                </div>
+                                            </div>
+                                            <div className="car-dashboard__statValue">{nextServiceAt.toLocaleString()}</div>
+                                            <div className="car-dashboard__statMeta">km</div>
+                                        </IonCardContent>
+                                    </IonCard>
+                                </IonCol>
+                            </IonRow>
+
+                            <IonRow className="car-dashboard__sectionRow">
+                                <IonCol size="12">
+                                    <div className="car-dashboard__sectionTitle">Actividad Reciente</div>
+                                    <IonList inset lines="none" className="car-dashboard__activityList">
+                                        <IonItem lines="none" className="car-dashboard__activityItem">
+                                            <IonIcon icon={water} slot="start" className="car-dashboard__activityIcon" />
+                                            <IonLabel>
+                                                <h2>Último cambio de aceite</h2>
+                                                <p>{car.ultimoAceite.toLocaleString()} km</p>
+                                            </IonLabel>
+                                            <IonNote slot="end">Aceite</IonNote>
+                                        </IonItem>
+                                        <IonItem lines="none" className="car-dashboard__activityItem">
+                                            <IonIcon icon={batteryHalf} slot="start" className="car-dashboard__activityIcon" />
+                                            <IonLabel>
+                                                <h2>Último cambio de batería</h2>
+                                                <p>{car.ultimaBateria.toLocaleString()} km</p>
+                                            </IonLabel>
+                                            <IonNote slot="end">Batería</IonNote>
+                                        </IonItem>
+                                        <IonItem lines="none" className="car-dashboard__activityItem">
+                                            <IonIcon icon={list} slot="start" className="car-dashboard__activityIcon" />
+                                            <IonLabel>
+                                                <h2>Próximo mantenimiento</h2>
+                                                <p>{nextServiceAt.toLocaleString()} km ({nextServiceType})</p>
+                                            </IonLabel>
+                                            <IonNote slot="end">Recomendado</IonNote>
+                                        </IonItem>
+                                    </IonList>
                                 </IonCol>
                             </IonRow>
                         </IonGrid>
-
-                        <div className="maintenance-history">
-                            <h3>
-                                <IonIcon icon="list" style={{ marginRight: '8px' }} />
-                                Historial de mantenimiento
-                            </h3>
-                            <div className="history-item">
-                                <IonIcon icon="water" />
-                                <div>
-                                    <strong>Último cambio de aceite:</strong>
-                                    <p>{car.ultimoAceite.toLocaleString()} km</p>
-                                </div>
-                            </div>
-                            <div className="history-item">
-                                <IonIcon icon="battery-half" />
-                                <div>
-                                    <strong>Último cambio de batería:</strong>
-                                    <p>{car.ultimaBateria.toLocaleString()} km</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 )}
 
@@ -159,7 +230,7 @@ const CarModal: React.FC<CarModalProps> = ({
 
                         <IonItem className="input-item">
                             <IonLabel position="stacked">
-                                <IonIcon icon="speedometer" style={{ marginRight: '8px' }} />
+                                <IonIcon icon={speedometer} style={{ marginRight: '8px' }} />
                                 Kilometraje nuevo (km)
                             </IonLabel>
                             <IonInput
@@ -173,40 +244,43 @@ const CarModal: React.FC<CarModalProps> = ({
                         <div className="action-buttons">
                             <IonButton
                                 expand="block"
+                                shape="round"
                                 onClick={() => {
                                     onRegisterKm(nuevoKm);
                                     setNuevoKm(0);
                                 }}
                                 disabled={nuevoKm <= 0}
                             >
-                                <IonIcon icon="flag" slot="start" />
+                                <IonIcon icon={flag} slot="start" />
                                 Registrar kilometraje
                             </IonButton>
 
                             <IonButton
                                 expand="block"
+                                shape="round"
                                 color="warning"
                                 onClick={onChangeOil}
                                 className="maintenance-button"
                             >
-                                <IonIcon icon="water" slot="start" />
+                                <IonIcon icon={water} slot="start" />
                                 Cambié aceite (restablecer contador)
                             </IonButton>
 
                             <IonButton
                                 expand="block"
+                                shape="round"
                                 color="tertiary"
                                 onClick={onChangeBattery}
                                 className="maintenance-button"
                             >
-                                <IonIcon icon="battery-half" slot="start" />
+                                <IonIcon icon={batteryHalf} slot="start" />
                                 Cambié batería (restablecer contador)
                             </IonButton>
                         </div>
                     </div>
                 )}
-                <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                    <IonButton expand="block" color="medium" onClick={onClose}>
+                <div className="car-modal__footer">
+                    <IonButton expand="block" shape="round" fill="outline" color="medium" onClick={onClose}>
                         Cerrar
                     </IonButton>
                 </div>

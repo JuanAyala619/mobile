@@ -41,43 +41,57 @@ const CarCard: React.FC<CarCardProps> = ({ car, onClick, onDelete }) => {
     return (
         <IonCard className="car-card">
             <IonCardHeader>
-                <IonCardTitle>
-                    <IonIcon icon="car" style={{ marginRight: '8px' }} />
-                    {car.marca} {car.modelo}
+                <IonCardTitle className="car-card__title">
+                    <span className="car-card__titleIcon">
+                        <IonIcon icon="car" />
+                    </span>
+                    <span className="car-card__titleText">{car.marca} {car.modelo}</span>
                 </IonCardTitle>
             </IonCardHeader>
 
             <IonCardContent>
-                <div className="car-info">
-                    <p><strong>Placa:</strong> {car.placa}</p>
-                    <p><strong>Kilometraje:</strong> {car.kilometraje.toLocaleString()} km</p>
-
-                    <div className="status-indicators">
-                        <span className={`status-dot ${oilStatus.text}`}></span>
-                        <IonIcon icon="water" size="small" />
-                        <span>Aceite: {oilStatus.label}</span>
+                <div className="car-info car-card__info">
+                    <div className="car-card__meta">
+                        <div className="car-card__metaRow">
+                            <div className="car-card__metaLabel">Placa</div>
+                            <div className="car-card__metaValue">{car.placa}</div>
+                        </div>
+                        <div className="car-card__metaRow">
+                            <div className="car-card__metaLabel">Kilometraje</div>
+                            <div className="car-card__metaValue">{car.kilometraje.toLocaleString()} km</div>
+                        </div>
                     </div>
 
-                    <div className="status-indicators">
-                        <span className={`status-dot ${batteryStatus.text}`}></span>
-                        <IonIcon icon="battery-half" size="small" />
-                        <span>Batería: {batteryStatus.label}</span>
+                    <div className="car-card__statusGrid">
+                        <div className="car-card__statusPill">
+                            <span className={`status-dot ${oilStatus.text}`}></span>
+                            <IonIcon icon="water" />
+                            <span className="car-card__statusText">Aceite: {oilStatus.label}</span>
+                        </div>
+                        <div className="car-card__statusPill">
+                            <span className={`status-dot ${batteryStatus.text}`}></span>
+                            <IonIcon icon="battery-half" />
+                            <span className="car-card__statusText">Batería: {batteryStatus.label}</span>
+                        </div>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                <div className="car-card__actions">
                     <IonButton
                         expand="block"
+                        shape="round"
                         onClick={onClick}
-                        style={{ flex: 1 }}
+                        className="car-card__btn car-card__btn--primary"
                     >
                         Ver detalles
                     </IonButton>
                     <IonButton
                         expand="block"
+                        shape="round"
+                        fill="outline"
                         color="danger"
                         onClick={() => setShowDeleteAlert(true)}
-                        style={{ flex: 1 }}
+                        className="car-card__btn car-card__btn--danger"
                     >
                         Eliminar
                     </IonButton>
