@@ -11,6 +11,13 @@ ion-select {
     border-radius: 8px;
 }
 
+@media (prefers-color-scheme: dark) {
+    ion-input,
+    ion-select {
+        --background: rgba(255, 255, 255, 0.08);
+    }
+}
+
 .form-button {
     margin-top: 24px;
     --border-radius: 8px;

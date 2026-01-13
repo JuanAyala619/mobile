@@ -19,3 +19,12 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-danger-rgb:197, 0, 15;
   --ion-color-danger: #df2131;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /** Primary colors for dark mode **/
+    --ion-color-primary: #5a9fff;
+    --ion-color-primary-shade: #4a8fff;
+    --ion-color-primary-tint: #6ba9ff;
+  }
+}
