@@ -241,6 +241,84 @@
     margin-top: 8px;
 }
 
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+    .car-modal__toolbar {
+        --border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .car-modal__segment {
+        background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .car-header {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .car-header h2 {
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .total-km {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .car-dashboard__statCard {
+        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .car-dashboard__statCardContent {
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .car-dashboard__iconWrap {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.85);
+    }
+    
+    .car-dashboard__statLabel {
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .car-dashboard__statValue {
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .car-dashboard__statMeta {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .car-dashboard__sectionTitle {
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .car-dashboard__activityIcon {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .car-dashboard__activityItem h2 {
+        color: rgba(255, 255, 255, 0.95);
+    }
+    
+    .car-dashboard__activityItem p {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .car-dashboard__activityItem ion-note {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .register-content h3 {
+        color: var(--ion-color-primary);
+    }
+    
+    .input-item {
+        --background: rgba(255, 255, 255, 0.08);
+    }
+}
+
 /* Responsive */
 @media (min-width: 768px) {
     .car-modal {

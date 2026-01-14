@@ -94,7 +94,7 @@ const Tab3: React.FC = () => {
         <div className="profile-section">
           <h3>
             <IonIcon icon={person} style={{ marginRight: '8px', color: "primary" }} />
-            "Información personal"
+            Información personal
           </h3>
         </div>
         <IonList>
@@ -122,7 +122,7 @@ const Tab3: React.FC = () => {
         <div className="profile-section">
           <h3>
             <IonIcon icon={documentText} style={{ marginRight: '8px', color: "primary" }} />
-            "Mis estadísticas"
+            Mis estadísticas
           </h3>
         </div>
         <IonGrid>
@@ -203,7 +203,7 @@ const Tab3: React.FC = () => {
                         <div className="profile-section">
           <h3>
             <IonIcon icon={informationCircle} style={{ marginRight: '8px', color: "primary" }} />
-            "Mis estadísticas"
+            Acerca de:
           </h3>
         </div>
           <div>
